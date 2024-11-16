@@ -1,7 +1,7 @@
 package main
 
 import (
-	appconfig "insomnia/config"
+	"insomnia/config"
 	"insomnia/database"
 	"log"
 )
@@ -9,7 +9,7 @@ import (
 func main() {
 	// load the config from env
 	var (
-		cfg      appconfig.Config
+		cfg      config.Config
 		database database.Database
 	)
 
