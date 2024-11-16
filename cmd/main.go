@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"insomina/config"
 
 	"github.com/gofiber/fiber/v2/log"
@@ -21,5 +20,6 @@ func main() {
 		log.Fatalf("Error loading config: %v", err)
 	}
 
-	fmt.Println("DB_NAME : ", c.DB_NAME)
+	
+
 }
