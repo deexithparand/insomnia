@@ -1,10 +1,9 @@
-package db
+package database
 
 import (
 	"fmt"
 	"insomnia/config"
 
-	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -24,15 +23,4 @@ func (db *Database) ConfigureDSN(dbconf config.Config) {
 		dbconf.DB_PORT,
 		dbconf.DB_SSLMODE,
 	)
-}
-
-// open connection to db
-func (db *Database) Connect() error {
-	conn, err := gorm.Open(postgres.Open(db.DSN), &gorm.Config{})
-	if err != nil {
-		return fmt.Errorf("error opening connection to database : %v", err.Error())
-	}
-
-	db.Conn = conn
-	return nil
 }
