@@ -1,17 +1,16 @@
 package main
 
 import (
-	"insomnia/config"
-	db "insomnia/db/config"
-
+	appconfig "insomnia/config"
+	"insomnia/database"
 	"log"
 )
 
 func main() {
 	// load the config from env
 	var (
-		cfg config.Config
-		db  db.Database
+		cfg      appconfig.Config
+		database database.Database
 	)
 
 	// environment constant
@@ -23,13 +22,13 @@ func main() {
 		log.Fatalf("Error loading config: %v", err)
 	}
 
-	// db migrations
-
 	// configure db connections
-	db.ConfigureDSN(cfg)
-	err = db.Connect()
+	database.ConfigureDSN(cfg)
+	err = database.Connect()
 	if err != nil {
 		log.Fatalf("error connecting to database : %v", err)
 	}
 
+	// migrate db
+	database.Migrate()
 }
