@@ -1,25 +1,35 @@
 package main
 
 import (
-	"insomina/config"
+	"insomnia/config"
+	db "insomnia/db/config"
 
-	"github.com/gofiber/fiber/v2/log"
+	"log"
 )
 
 func main() {
 	// load the config from env
 	var (
-		c           config.Config
-		environment string
+		cfg config.Config
+		db  db.Database
 	)
 
-	environment = "local"
+	// environment constant
+	const env string = "local"
 
-	err := c.LoadConfig(environment)
+	// load config from env
+	err := cfg.LoadConfig(env)
 	if err != nil {
 		log.Fatalf("Error loading config: %v", err)
 	}
 
-	
+	// db migrations
+
+	// configure db connections
+	db.ConfigureDSN(cfg)
+	err = db.Connect()
+	if err != nil {
+		log.Fatalf("error connecting to database : %v", err)
+	}
 
 }
