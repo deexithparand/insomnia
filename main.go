@@ -4,6 +4,7 @@ import (
 	"insomnia/cmd"
 	"insomnia/config"
 	"insomnia/database"
+	"insomnia/state"
 	"log"
 )
 
@@ -32,10 +33,10 @@ func main() {
 
 	// migrate db
 	database.Migrate()
-
-	// seed dummy data for tests
+	database.SeedWorkspaces()
 
 	// cli
+	state.SetDatabase(database)
 	cmd.Execute()
 
 }
