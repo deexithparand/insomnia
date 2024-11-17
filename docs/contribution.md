@@ -1,94 +1,163 @@
+### `CONTRIBUTING.md`
+
+# Contributing to Insomnia
+
+Thank you for considering contributing to Insomnia! This guide will help you understand our project structure and guide you through the contribution process. 
+
+```
+insomnia/
+├── cmd/                       # Command definitions for CLI
+│   ├── root.go                # Base/root command
+│   ├── workspace/             # Commands for workspaces
+│   │   ├── workspace.go       # Parent command
+│   │   ├── list.go            # Subcommand: list workspaces
+│   │   ├── create.go          # Subcommand: create workspace
+│   │   ├── connect.go         # Subcommand: connect workspace
+│   │   ├── delete.go          # Subcommand: delete workspace
+│   ├── endpoint/              # Commands for endpoints
+│   │   ├── endpoint.go        # Parent command
+│   │   ├── list.go            # Subcommand: list endpoints
+│   │   ├── create.go          # Subcommand: create endpoint
+│   │   ├── delete.go          # Subcommand: delete endpoint
+├── config/                    # Configuration utilities
+│   ├── config.go              # Manage CLI state (e.g., current workspace)
+├── database/                  # Database-related code
+│   ├── models.go              # GORM models (Workspace, Endpoint, etc.)
+│   ├── migrations/            # Database migration files
+│   ├── seed.go                # Database seeding logic
+├── utils/                     # Utility functions (optional)
+│   ├── printer.go             # Common output functions for CLI
+├── main.go                    # Entry point
+├── go.mod                     # Dependencies
+├── go.sum                     # Dependency checksums
+```
+
+---
+
 ## Project Structure
 
 The project is organized as follows:
 
+### Root Directory
+- **`main.go`**: The entry point for the CLI application.
+- **`go.mod`**: Dependency management file for Go modules.
+- **`go.sum`**: Checksums for the project's dependencies.
+
+---
+
+### Key Directories
+
+#### 1. **`cmd/`**
+This folder contains the command definitions for the CLI. Each subfolder corresponds to a specific feature or resource.
+
+- **`root.go`**: Defines the base/root command for the CLI.
+- **`workspace/`**: Commands related to workspaces.
+  - **`workspace.go`**: The parent command for managing workspaces.
+  - **`list.go`**: Subcommand to list all workspaces.
+  - **`create.go`**: Subcommand to create a new workspace.
+  - **`connect.go`**: Subcommand to connect to a workspace.
+  - **`delete.go`**: Subcommand to delete a workspace.
+- **`endpoint/`**: Commands related to endpoints.
+  - **`endpoint.go`**: The parent command for managing endpoints.
+  - **`list.go`**: Subcommand to list all endpoints.
+  - **`create.go`**: Subcommand to create a new endpoint.
+  - **`delete.go`**: Subcommand to delete an endpoint.
+
+---
+
+#### 2. **`config/`**
+Manages the configuration utilities for the CLI.
+
+- **`config.go`**: Handles CLI state, such as the current active workspace.
+
+---
+
+#### 3. **`database/`**
+Contains all database-related logic.
+
+- **`models.go`**: Defines the GORM models, such as `Workspace` and `Endpoint`.
+- **`migrations/`**: Stores database migration files.
+- **`seed.go`**: Contains logic for seeding initial data into the database.
+
+---
+
+#### 4. **`utils/`**
+Optional utilities to keep the codebase clean and reusable.
+
+- **`printer.go`**: Common functions for output formatting and printing to the terminal.
+
+---
+
+## How to Contribute
+
+We welcome contributions in the form of bug reports, feature requests, and pull requests.
+
+### 1. **Fork the Repository**
+Start by forking the repository to your GitHub account.
+
+### 2. **Clone Your Fork**
+```bash
+git clone https://github.com/<your-username>/insomnia.git
+cd insomnia
 ```
-/insomnia
-├── /cmd
-│   ├── main.go            # Entry point of the application (package main)
-│   ├── setup.go           # Setup logic (package main)
-│   ├── start.go           # Logic for starting the service (package main)
-│   ├── stop.go            # Logic for stopping the service (package main)
-│   └── status.go          # Logic for checking the status (package main)
-├── /config
-│   └── config.go          # Configuration management (package config)
-├── /db
-│   └── db.go              # Database connection & models (package db)
-├── /handlers
-│   ├── monitor.go         # Uptime monitoring logic (package handlers)
-│   └── notifier.go        # Logic for notifications (package handlers)
-├── /migrations
-│   └── 001_initial_schema.sql  # Initial DB schema (SQL file, no Go package)
-├── /docker
-│   ├── Dockerfile         # Docker setup for the project
-│   └── docker-compose.yml # Docker Compose setup for services       
-├── /scripts
-│   └── migration.sh       # Script for running database migrations
-├── /docs
-│   ├── index.md           # Main documentation file for Docsify
-│   └── ...                # Additional documentation files as needed
-├── /node_modules          # Automatically created by Docsify (after setup)
-└── /package.json          # Docsify-related dependencies and configuration
+
+### 3. **Create a New Branch**
+Follow the naming conventions for your branch:
+- Bug fix: `fix/<issue-description>`
+- Feature: `feature/<feature-name>`
+- Hotfix: `hotfix/<hotfix-name>`
+
+Example:
+```bash
+git checkout -b feature/add-endpoint-edit
 ```
 
-### Folder Breakdown
+### 4. **Make Changes**
+- Follow the folder structure conventions.
+- Keep your code clean and document functions where needed.
 
-- **/cmd**: Contains the main application logic and entry points.
-  - `main.go`: The entry point for starting the application.
-  - `setup.go`: Handles the initial setup.
-  - `start.go`: Starts the uptime monitoring service.
-  - `stop.go`: Stops the uptime monitoring service.
-  - `status.go`: Checks the status of monitored services.
+### 5. **Test Your Changes**
+Before submitting, ensure that your changes work as expected:
+- Test CLI commands manually.
+- Verify database migrations and seeds.
 
-- **/config**: Stores the configuration management code for the project.
-  - `config.go`: Manages the configuration settings for the application.
+### 6. **Commit and Push**
+```bash
+git add .
+git commit -m "Add feature: Edit endpoint"
+git push origin feature/add-endpoint-edit
+```
 
-- **/db**: Contains the logic for managing the database.
-  - `db.go`: Handles the database connection and data models.
+### 7. **Submit a Pull Request**
+- Go to the original repository on GitHub.
+- Click on "New Pull Request."
+- Provide a clear description of the changes.
 
-- **/handlers**: Contains the core business logic for the application.
-  - `monitor.go`: Monitors the status of endpoints.
-  - `notifier.go`: Sends notifications based on uptime status.
+---
 
-- **/migrations**: Contains database migration scripts.
-  - `001_initial_schema.sql`: The initial schema for the database setup.
+## Coding Guidelines
 
-- **/docker**: Contains the Docker-related files for containerization.
-  - `Dockerfile`: Docker setup for building the application container.
-  - `docker-compose.yml`: Configuration for Docker Compose to run the services.
+1. **Write Clean Code**  
+   Follow Go's best practices and conventions.
+   
+2. **Keep Commands Modular**  
+   Each command should focus on a single responsibility.
 
-- **/scripts**: Contains scripts for managing and running the project.
-  - `migration.sh`: Script for applying database migrations.
+3. **Database Models**  
+   Ensure all models are defined in `database/models.go` and linked to migrations.
 
-- **/docs**: Documentation for the project generated by Docsify.
-  - `index.md`: The main documentation file.
-  - Additional `.md` files for more detailed documentation sections.
+4. **Document Your Code**  
+   Add comments for functions and complex logic.
 
-- **/node_modules**: Automatically generated by Docsify after installation.
+5. **Testing**  
+   Test commands and database functionality before submitting.
 
-- **/package.json**: Contains Docsify-related dependencies and configuration.
+---
 
-### Setup and Installation
+## Issues and Support
 
-To install and set up Insomnia, follow these steps:
+If you encounter any issues or have questions, feel free to open an issue on GitHub. We are happy to help!
 
-1. **Install Docsify for Documentation**:
-   Docsify will be used to serve documentation. To install Docsify globally:
-   ```bash
-   npm install -g docsify-cli
-   ```
+---
 
-2. **Run Docsify Local Server**:
-   To view the documentation locally:
-   ```bash
-   docsify serve ./docs
-   ```
-
-   This will serve the documentation at `http://localhost:3000`.
-
-3. **Docker Setup**:
-   You can use Docker to set up the application. The `docker-compose.yml` file and `Dockerfile` will help you build and run the application in a containerized environment. Follow the instructions in the documentation to set up Docker for the project.
-
-4. **Database Setup**:
-   - The initial database schema is defined in `migrations/001_initial_schema.sql`.
-   - Run the migration script (`scripts/migration.sh`) to set up the database.
+Thank you for contributing to Insomnia! 🚀
