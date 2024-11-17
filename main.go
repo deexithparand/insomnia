@@ -1,6 +1,7 @@
 package main
 
 import (
+	"insomnia/cmd"
 	"insomnia/config"
 	"insomnia/database"
 	"log"
@@ -35,5 +36,6 @@ func main() {
 	// seed dummy data for tests
 
 	// cli
+	cmd.Execute()
 
 }

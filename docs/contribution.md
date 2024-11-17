@@ -1,5 +1,3 @@
-### `CONTRIBUTING.md`
-
 # Contributing to Insomnia
 
 Thank you for considering contributing to Insomnia! This guide will help you understand our project structure and guide you through the contribution process. 
