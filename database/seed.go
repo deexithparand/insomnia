@@ -1,13 +1,16 @@
 package database
 
-import "log"
+import (
+	"insomnia/helper"
+	"log"
+)
 
 // seeder to workspaces (input must : as an object)
 func (db *Database) SeedWorkspaces() {
 	workspaces := []Workspace{
-		{ID: "e2ewdw", Name: "Workspace1"},
-		{ID: "32dwdw", Name: "Workspace2"},
-		{ID: "32dfefdwwd", Name: "Workspace3"},
+		{ID: helper.GenerateUUID(), Name: "Workspace 1"},
+		{ID: helper.GenerateUUID(), Name: "Workspace 2"},
+		{ID: helper.GenerateUUID(), Name: "Workspace 3"},
 	}
 
 	for _, workspace := range workspaces {
