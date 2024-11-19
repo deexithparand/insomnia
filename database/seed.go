@@ -8,9 +8,9 @@ import (
 // seeder to workspaces (input must : as an object)
 func (db *Database) SeedWorkspaces() {
 	workspaces := []Workspace{
-		{ID: helper.GenerateUUID(), Name: "Workspace 1"},
-		{ID: helper.GenerateUUID(), Name: "Workspace 2"},
-		{ID: helper.GenerateUUID(), Name: "Workspace 3"},
+		{ID: helper.GenerateUUID(), Name: "workspace-1"},
+		{ID: helper.GenerateUUID(), Name: "workspace-2"},
+		{ID: helper.GenerateUUID(), Name: "workspace-3"},
 	}
 
 	for _, workspace := range workspaces {
