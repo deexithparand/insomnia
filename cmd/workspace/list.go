@@ -2,6 +2,7 @@ package workspace
 
 import (
 	"fmt"
+	"insomnia/format"
 	"insomnia/state"
 
 	"github.com/spf13/cobra"
@@ -19,18 +20,17 @@ var listCmd = &cobra.Command{
 }
 
 func listWorkspaces() {
-	workspaces, err := state.DB.GetAllWorkspaces()
+	workspaceData, err := state.DB.GetAllWorkspaces()
 	if err != nil {
 		fmt.Printf("error retrieving the workspaces from the database : %v", err)
 		return
 	}
 
-	fmt.Println("Workspaces       |")
-	fmt.Println("------------------")
-
-	for _, workspace := range workspaces {
-		fmt.Println(workspace)
+	tableHeaders := []string{
+		"ID", "NAME", "DESCRIPTION",
 	}
+
+	format.TableFormat(tableHeaders, workspaceData)
 }
 
 func init() {
