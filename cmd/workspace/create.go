@@ -26,15 +26,22 @@ type Workspace struct {
 }
 
 func createWorkspace() {
-	var workspaces []string
+	var workspaceNames []string
+	var workspaceData [][]string
 	var inputWorkspaceName string
 	var err error
 
 	// fetch already present workspaces
-	workspaces, err = state.DB.GetAllWorkspaces()
+	workspaceData, err = state.DB.GetAllWorkspaces()
 	if err != nil {
 		fmt.Printf("error retrieving workspaces : %v", err)
 		return
+	}
+
+	// Name of workspaces in seperate slice
+	for _, workspace := range workspaceData {
+		// getting names from index 1
+		workspaceNames = append(workspaceNames, workspace[1])
 	}
 
 	for {
@@ -56,7 +63,7 @@ func createWorkspace() {
 
 		// check if the workspace is there
 		var isPresent bool = false
-		for _, workspace := range workspaces {
+		for _, workspace := range workspaceNames {
 			if workspace == inputWorkspaceName {
 				isPresent = true
 				break
