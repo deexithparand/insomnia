@@ -17,7 +17,8 @@ var WorkspaceCmd = &cobra.Command{
 }
 
 func init() {
-	WorkspaceCmd.AddCommand(listCmd)
 	WorkspaceCmd.AddCommand(connectCmd)
 	WorkspaceCmd.AddCommand(createCmd)
+	WorkspaceCmd.AddCommand(listCmd)
+	WorkspaceCmd.AddCommand(showCmd)
 }
