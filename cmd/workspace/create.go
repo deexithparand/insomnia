@@ -25,7 +25,7 @@ type Workspace struct {
 	Description string
 }
 
-type Input struct {
+type workspaceCreateInput struct {
 	workspaceName        string
 	workspaceDescription string
 }
@@ -35,7 +35,7 @@ func createWorkspace() {
 	var workspaceData [][]string
 	var err error
 
-	var input Input
+	var input workspaceCreateInput
 
 	// fetch already present workspaces
 	workspaceData, err = state.DB.GetAllWorkspaces()

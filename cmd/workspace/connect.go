@@ -1,6 +1,12 @@
 package workspace
 
 import (
+	"fmt"
+	"insomnia/format"
+	"insomnia/helper"
+	"insomnia/state"
+
+	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
 
@@ -15,14 +21,81 @@ var connectCmd = &cobra.Command{
 	},
 }
 
+type workspaceConnectInput struct {
+	connectedWorkspaceName string
+	requireWorkspace       string
+}
+
+func generateWorkspaceNamesTable() {
+	var workspaceNames []string
+	var workspaceNamesTable [][]string
+
+	// fetch already present workspaces
+	workspaceData, err := state.DB.GetAllWorkspaces()
+	if err != nil {
+		fmt.Printf("error retrieving workspaces : %v", err)
+		return
+	}
+
+	// Name of workspaces in seperate slice
+	for _, singleWorkspaceData := range workspaceData {
+		// getting names from index 1
+		workspaceNames = append(workspaceNames, singleWorkspaceData[1])
+	}
+	workspaceNamesTable = append(workspaceNamesTable, workspaceNames)
+
+	// list the workspace names as tables
+	tableHeaders := []string{
+		"Workspaces",
+	}
+
+	format.TableFormat(tableHeaders, workspaceNamesTable)
+}
+
 func connectToWorkspace() {
-	// list all the available workspace
+	var input workspaceConnectInput
+	var err error
 
-	// get the user input
+	// get the currently connected workspace
+	if len(input.connectedWorkspaceName) == 0 {
+		fmt.Println("Not connected to any workspace yet")
+	} else {
+		fmt.Println("Currently connected workspace : ", input.connectedWorkspaceName)
+	}
 
-	// check if the workspace is already created
+	// Connect to a workspace ?
+	prompt := promptui.Select{
+		Label: "Would you like to connect to new workspace ?",
+		Items: []string{"Yes", "No"},
+	}
 
-	// if so update the currentworkspace to that one
+	_, input.requireWorkspace, err = prompt.Run()
+
+	if err != nil {
+		fmt.Printf("Prompt failed %v\n", err)
+		return
+	}
+
+	if input.requireWorkspace == "Yes" {
+
+		// list all the available workspace
+		fmt.Println("Available workspaces : ")
+		generateWorkspaceNamesTable()
+
+		// get the user input
+		input.connectedWorkspaceName, err = helper.GetCMDInput("Name the workspace to which you would like to connect : ")
+		if err != nil {
+			fmt.Printf("error getting the CMD input : %v\n", err)
+			return
+		}
+
+		// update the current connected workspace
+		state.SetCurrentWorkspace(input.connectedWorkspaceName)
+
+		// display the updated workspace from state
+		fmt.Printf("Successfully updated the connected workspace : %s", state.GetCurrentWorkspace())
+	}
+
 }
 
 func init() {
