@@ -1,8 +1,6 @@
 package workspace
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -19,7 +17,6 @@ var connectCmd = &cobra.Command{
 
 func connectToWorkspace() {
 	// list all the available workspace
-	fmt.Println("connec to workspace : List all the workspaces to which to connect and check which to connect to")
 
 	// get the user input
 

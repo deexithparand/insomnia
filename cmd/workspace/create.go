@@ -25,11 +25,17 @@ type Workspace struct {
 	Description string
 }
 
+type Input struct {
+	workspaceName        string
+	workspaceDescription string
+}
+
 func createWorkspace() {
 	var workspaceNames []string
 	var workspaceData [][]string
-	var inputWorkspaceName string
 	var err error
+
+	var input Input
 
 	// fetch already present workspaces
 	workspaceData, err = state.DB.GetAllWorkspaces()
@@ -47,24 +53,31 @@ func createWorkspace() {
 	for {
 
 		// prompt for a workspace name
-		inputWorkspaceName, err = helper.GetCMDInput("Enter the new workspace name : ")
+		input.workspaceName, err = helper.GetCMDInput("Enter workspace name : ")
 		if err != nil {
 			fmt.Printf("error getting the input from cmd : %v\n", err)
 			return
 		}
 
 		// impose CMD ruleset
-		followsRuleset := helper.CMDInputRuleSet(inputWorkspaceName)
+		followsRuleset := helper.CMDInputRuleSet(input.workspaceName)
 		if !followsRuleset {
 			followsRulesetError := errors.New("only lowercase letters, number and hyphens allowed for this input ")
 			fmt.Printf("error : %v\n", followsRulesetError)
-			return
+			continue
+		}
+
+		// input workspace description
+		input.workspaceDescription, err = helper.GetCMDInput("Enter workspace description : ")
+		if err != nil {
+			fmt.Printf("error getting the input from cmd : %v\n", err)
+			continue
 		}
 
 		// check if the workspace is there
 		var isPresent bool = false
-		for _, workspace := range workspaceNames {
-			if workspace == inputWorkspaceName {
+		for _, workspaceName := range workspaceNames {
+			if workspaceName == input.workspaceName {
 				isPresent = true
 				break
 			}
@@ -85,8 +98,8 @@ func createWorkspace() {
 
 	var newWorkspace Workspace = Workspace{
 		ID:          helper.GenerateUUID(),
-		Name:        inputWorkspaceName,
-		Description: "Newly created workspace",
+		Name:        input.workspaceName,
+		Description: input.workspaceDescription,
 	}
 
 	result := state.DB.Conn.Create(&newWorkspace)
@@ -95,7 +108,7 @@ func createWorkspace() {
 		return
 	}
 
-	fmt.Printf("Successfully created a new workspace named : %s\n", inputWorkspaceName)
+	fmt.Printf("Successfully created a new workspace named : %s\n", input.workspaceName)
 }
 
 func init() {
