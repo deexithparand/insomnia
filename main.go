@@ -20,7 +20,6 @@ func main() {
 
 	// load config from env
 	err := cfg.LoadConfig(env)
-
 	if err != nil {
 		panic(err)
 	}
