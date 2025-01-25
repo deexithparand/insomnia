@@ -13,7 +13,7 @@ import (
 type Config struct {
 	// database
 	DB_TYPE     string
-	DB_URL      string
+	DB_HOST     string
 	DB_PORT     int
 	DB_USER     string
 	DB_PASSWORD string
@@ -54,9 +54,9 @@ func (c *Config) LoadConfig(env string) error {
 		return errors.New("DB_TYPE not set in the env")
 	}
 
-	c.DB_URL = os.Getenv("DB_URL")
-	if c.DB_URL == "" {
-		return errors.New("DB_URL not set in the env")
+	c.DB_HOST = os.Getenv("DB_HOST")
+	if c.DB_HOST == "" {
+		return errors.New("DB_HOST not set in the env")
 	}
 
 	DB_port := os.Getenv("DB_PORT")
@@ -65,7 +65,8 @@ func (c *Config) LoadConfig(env string) error {
 		DB_port = "5432"
 	}
 
-	dbport, err := strconv.ParseInt(DB_port, 10, 0)
+	// converting DB_port (string) to uint - total ports 0 -> 65535 -> so 16 bit uint with base 10 (0-9)
+	dbport, err := strconv.ParseUint(DB_port, 10, 16)
 	if err != nil {
 		return errors.New("error parsing the DB_PORT to Integer")
 	}

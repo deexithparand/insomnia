@@ -33,7 +33,13 @@ func main() {
 
 	// migrate db
 	database.Migrate()
-	database.SeedWorkspaces()
+
+	// seederError := database.SeedWorkspaces()
+	// if seederError != nil {
+	// 	panic(seederError)
+	// }
+
+	// log.Println("Database Seeded Properly")
 
 	// cli
 	state.SetDatabase(database)

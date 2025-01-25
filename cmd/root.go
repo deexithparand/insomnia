@@ -31,7 +31,9 @@ func InitShell() {
 	reader := bufio.NewReader(os.Stdin)
 	// Get input command for the shell
 	for {
-		fmt.Print("\033[1;34minsomnia > \033[0m")
+		// fmt.Print("\033[1;34minsomnia > \033[0m")
+
+		fmt.Print("\033[1;34m💤 > \033[0m")
 
 		input, err := reader.ReadString('\n')
 		input = strings.TrimSpace(input)
@@ -75,7 +77,9 @@ func InitShell() {
 }
 
 func Execute() {
+
 	if len(os.Args) > 1 {
+
 		if err := rootCmd.Execute(); err != nil {
 			fmt.Println(err)
 			os.Exit(1)

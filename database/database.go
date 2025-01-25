@@ -16,7 +16,7 @@ type Database struct {
 func (db *Database) ConfigureDSN(dbconf config.Config) {
 	db.DSN = fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%d sslmode=%s TimeZone=Asia/Shanghai",
-		dbconf.DB_URL,
+		dbconf.DB_HOST,
 		dbconf.DB_USER,
 		dbconf.DB_PASSWORD,
 		dbconf.DB_NAME,
