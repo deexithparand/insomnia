@@ -1,8 +1,6 @@
 package endpoint
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -12,7 +10,8 @@ var EndpointCmd = &cobra.Command{
 	Short: "endpoint is the parent command, used to point all endpoint related commands and subcommands",
 	Long:  `endpoint is the parent command, used to point all endpoint related commands and subcommands`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("No subcommand provided. Use 'insomnia endpoint --help' for more information.")
+		// fmt.Println("No subcommand provided. Use 'insomnia endpoint --help' for more information.")
+		cmd.Help()
 	},
 }
 
