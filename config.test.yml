@@ -1,0 +1,11 @@
+# This is a config file for the insomnia - endpoints & their properties
+insomnia:
+  target-group:
+    label:  "sample"
+    target: 
+      - endpoint:
+          url: "https://www.google.com"    
+          interval: 5m # only whole values ( decimals not allowed ) - in s, m, h, d ( default - 5m )
+      - endpoint:
+          url: "https://www.whatismyip.com"
+          interval: 5s
