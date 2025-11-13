@@ -2,10 +2,11 @@
 insomnia:
   target-group:
     label:  "sample"
-    target: 
+    targets: 
       - endpoint:
           url: "https://www.google.com"    
           interval: 5m # only whole values ( decimals not allowed ) - in s, m, h, d ( default - 5m )
       - endpoint:
           url: "https://www.whatismyip.com"
           interval: 5s
+    # global-setting: ( planning to add this later )
