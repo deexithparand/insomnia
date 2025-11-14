@@ -6,45 +6,54 @@ import (
 	"github.com/goccy/go-yaml"
 )
 
-// return's a yaml string
-// func ParseYML(path string) string {
-
-// }
-
-type Book struct {
-	Author string `yaml:"author"`
-	Price  int    `yaml:"price"`
+type Endpoint struct {
+	Url      string `yaml:"url"`
+	Interval string `yaml:"interval"`
 }
 
-type Store struct {
-	BookStore []Book `yaml:"book"`
-	Bicycle   any    `yaml:"bicycle"`
+type Target struct {
+	Endpoint Endpoint `yaml:"endpoint"`
 }
 
-type Ymlmodel struct {
-	Store Store `yaml:"store"`
+type TargetGroup struct {
+	Label   string   `yaml:"label"`
+	Targets []Target `yaml:"targets"`
+}
+
+type Insomnia struct {
+	TargetGroups []TargetGroup `yaml:"target-group"`
+}
+
+type Config struct {
+	Insomnia Insomnia `yaml:"insomnia"`
 }
 
 func ParserTest() {
-	yml := `
-store:
-  book:
-    - author: john
-      price: 10
-    - author: ken
-      price: 12
-  bicycle:
-    color: red
-    price: 19.95
+	rawConfigContent := `
+# This is a config file for the insomnia - endpoints & their properties
+insomnia:
+  target-group:
+      - label:  "sample"
+        targets: 
+          - endpoint:
+              url: "https://www.google.com"    
+              interval: 5m # only whole values ( decimals not allowed ) - in s, m, h, d ( default - 5m )
+          - endpoint:
+              url: "https://www.whatismyip.com"
+              interval: 5s
+        # global-setting: ( planning to add this later )
 `
-	var ym Ymlmodel
-	err := yaml.Unmarshal([]byte(yml), &ym)
+	var config Config
+	err := yaml.Unmarshal([]byte(rawConfigContent), &config)
 	if err != nil {
 		panic(err)
 	}
 
-	for _, book := range ym.Store.BookStore {
-		fmt.Println(book.Author, "quotes the price to be : ", book.Price)
+	// looping through all target groups
+	for _, tg := range config.Insomnia.TargetGroups {
+
+		// currently only one target group
+		fmt.Println("Target Group : ", tg.Label)
 	}
 
 }
