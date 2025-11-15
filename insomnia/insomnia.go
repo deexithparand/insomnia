@@ -6,16 +6,36 @@ import (
 )
 
 // read config from file
-func ReadConfig(configFilePath string) {
-	utils.YMLParser(configFilePath)
+func Config(configFilePath string) utils.Config {
+	// Parse and Return Config
+	return utils.YMLParser(configFilePath)
 }
 
 // Setup DB
-func DB() {
+func DB(config utils.Config) {
+	// Test Connection
 	internal.TestPingDB()
+
+	// Load Data To DB
+	internal.Migrate()
+	internal.Seed(config)
 }
 
-func init() {
-	// fmt.Println("First init() function in main package")
-	DB()
+func Monitor() {
+	// currently kept empty until migration
+}
+
+func Start() {
+
+	// config values
+	configFilePath := "./config.test.yml"
+
+	// Config Scripts
+	config := Config(configFilePath)
+
+	// DB Scripts
+	DB(config)
+
+	// Start Monitoring, Wait & Trigger
+
 }

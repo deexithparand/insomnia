@@ -3,6 +3,8 @@ package internal
 import (
 	"database/sql"
 	"fmt"
+	"insomnia/utils"
+	"log"
 
 	_ "github.com/lib/pq"
 )
@@ -28,5 +30,13 @@ func TestPingDB() {
 		panic(err)
 	}
 
-	fmt.Println("Successfully connected!")
+	log.Println("Database connected successfully")
+}
+
+func Migrate() {
+	// DB Migration Code
+}
+
+func Seed(config utils.Config) {
+	// Seed Initial Config to DB
 }

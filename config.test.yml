@@ -1,12 +1,27 @@
 # This is a config file for the insomnia - endpoints & their properties
 insomnia:
   target-group:
-      - label:  "test"
+      - label:  "network"
         targets: 
           - endpoint:
-              url: "https://www.google.com"    
-              interval: 5m # only whole values ( decimals not allowed ) - in s, m, h, d ( default - 5m )
+              url: "https://fast.com"    
+              interval: 1m # only whole values ( decimals not allowed ) - in s, m, h, d ( default - 1m )
           - endpoint:
-              url: "https://www.whatismyip.com"
-              interval: 5s
-        # global-setting: ( planning to add this later )
+              url: "https://whatismyipaddress.com"
+              interval: 1m
+
+      - label:  "utility"
+        targets: 
+          - endpoint:
+              url: "https://www.youtube.com/"    
+              interval: 2m # only whole values ( decimals not allowed ) - in s, m, h, d ( default - 1m )
+          - endpoint:
+              url: "https://www.google.com/"
+              interval: 2m   
+
+      - label:  "ai"
+        targets: 
+          - endpoint:
+              url: "https://chatgpt.com/"    
+              interval: 3m # only whole values ( decimals not allowed ) - in s, m, h, d ( default - 1m )l    
+  # global-setting: ( planning to add this later )

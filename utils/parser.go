@@ -1,9 +1,8 @@
 package utils
 
 import (
-	"fmt"
+	"log"
 	"os"
-	"strings"
 
 	"github.com/goccy/go-yaml"
 )
@@ -30,21 +29,22 @@ type Config struct {
 	Insomnia Insomnia `yaml:"insomnia"`
 }
 
-func ymlParserLogger(config Config) {
-	// looping through all target groups
-	for index, tg := range config.Insomnia.TargetGroups {
+// DEV Usage - For Logging Parsed Output
+// func YMLParserLogger(config Config) {
+// 	// looping through all target groups
+// 	for index, tg := range config.Insomnia.TargetGroups {
 
-		fmt.Printf("Running Target Group (%d) : %s ...\n", index, strings.ToUpper(tg.Label))
+// 		log.Printf("Running Target Group (%d) : %s ...\n", index, strings.ToUpper(tg.Label))
 
-		// looping through - endpoints and their intervals in the target group
-		for _, target := range tg.Targets {
-			fmt.Println("Endpoint : ", target.Endpoint.Url, "hits at interval of : ", target.Endpoint.Interval)
-		}
-	}
+// 		// looping through - endpoints and their intervals in the target group
+// 		for _, target := range tg.Targets {
+// 			log.Println("Endpoint : ", target.Endpoint.Url, " - ", target.Endpoint.Interval)
+// 		}
 
-	// just to give a line space after each target group
-	fmt.Println()
-}
+// 		fmt.Println() // line space after every target group log
+// 	}
+
+// }
 
 func YMLParser(path string) Config {
 
@@ -61,8 +61,7 @@ func YMLParser(path string) Config {
 		panic(err)
 	}
 
-	// DEBUG Point ( Optional )
-	// ymlParserLogger(config)
+	log.Println("Config file parsed successfully")
 
 	return config
 }
