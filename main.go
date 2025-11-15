@@ -1,8 +1,12 @@
 package main
 
-import "insomnia/internal"
+import "insomnia/insomnia"
 
 func main() {
-	// currently empty for no reason
-	internal.ReadConfig()
+
+	// config values
+	configFilePath := "./config.test.yml"
+
+	// read config file
+	insomnia.ReadConfig(configFilePath)
 }
