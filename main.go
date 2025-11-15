@@ -3,12 +3,21 @@ package main
 import (
 	"fmt"
 	"insomnia/insomnia"
+	"insomnia/internal"
 	"os"
 	"os/signal"
 	"syscall"
 )
 
 func main() {
+
+	// Config Scripts
+	configFilePath := "./config.test.yml"
+	config := insomnia.Config(configFilePath)
+
+	// DB Scripts
+	insomnia.DB(config)
+	defer internal.Close()
 
 	insomnia.Start()
 

@@ -13,29 +13,20 @@ func Config(configFilePath string) utils.Config {
 
 // Setup DB
 func DB(config utils.Config) {
-	// Test Connection
-	internal.TestPingDB()
-
 	// Load Data To DB
+	internal.Connect()
 	internal.Migrate()
 	internal.Seed(config)
 }
 
 func Monitor() {
 	// currently kept empty until migration
+
+	// Table Creation
+
 }
 
 func Start() {
-
-	// config values
-	configFilePath := "./config.test.yml"
-
-	// Config Scripts
-	config := Config(configFilePath)
-
-	// DB Scripts
-	DB(config)
-
 	// Start Monitoring, Wait & Trigger
 
 }
