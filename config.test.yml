@@ -1,7 +1,7 @@
 # This is a config file for the insomnia - endpoints & their properties
 insomnia:
   target-group:
-      - label:  "sample"
+      - label:  "test"
         targets: 
           - endpoint:
               url: "https://www.google.com"    

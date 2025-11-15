@@ -2,6 +2,8 @@ package utils
 
 import (
 	"fmt"
+	"os"
+	"strings"
 
 	"github.com/goccy/go-yaml"
 )
@@ -29,31 +31,29 @@ type Config struct {
 }
 
 func ParserTest() {
-	rawConfigContent := `
-# This is a config file for the insomnia - endpoints & their properties
-insomnia:
-  target-group:
-      - label:  "sample"
-        targets: 
-          - endpoint:
-              url: "https://www.google.com"    
-              interval: 5m # only whole values ( decimals not allowed ) - in s, m, h, d ( default - 5m )
-          - endpoint:
-              url: "https://www.whatismyip.com"
-              interval: 5s
-        # global-setting: ( planning to add this later )
-`
+
+	fileBytes, err := os.ReadFile("./config.test.yml")
+	if err != nil {
+		panic(err)
+	}
+
+	rawConfigContent := string(fileBytes)
+
 	var config Config
-	err := yaml.Unmarshal([]byte(rawConfigContent), &config)
+	err = yaml.Unmarshal([]byte(rawConfigContent), &config)
 	if err != nil {
 		panic(err)
 	}
 
 	// looping through all target groups
-	for _, tg := range config.Insomnia.TargetGroups {
+	for index, tg := range config.Insomnia.TargetGroups {
 
-		// currently only one target group
-		fmt.Println("Target Group : ", tg.Label)
+		fmt.Printf("Running Target Group (%d) : %s ...\n", index, strings.ToUpper(tg.Label))
+
+		// looping through - endpoints and their intervals in the target group
+		for _, target := range tg.Targets {
+			fmt.Println("Endpoint : ", target.Endpoint.Url, "hits at interval of : ", target.Endpoint.Interval)
+		}
 	}
 
 }
