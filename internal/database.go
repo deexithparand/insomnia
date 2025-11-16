@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"insomnia/utils"
 	"log"
+	"os"
+	"path/filepath"
 
 	_ "github.com/lib/pq"
 )
@@ -19,6 +21,18 @@ const (
 
 var DB *sql.DB
 
+func sqlFromFile(file string) string {
+	base := "internal"
+	path := filepath.Join(base, file)
+	data, err := os.ReadFile(path)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Print(string(data))
+	return string(data)
+}
+
 func Migrate() {
 	// DB Migration Code
 	err := DB.Ping()
@@ -29,6 +43,16 @@ func Migrate() {
 	fmt.Println("If we ping we can also migrate")
 
 	// Table creations
+	log.Println("Starting Migrations ... ")
+
+	log.Println("Table Migrations ... ")
+
+	result, err := DB.Exec(sqlFromFile("create-table.sql"))
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println("Tables Created : ", result)
 }
 
 func Seed(config utils.Config) {
