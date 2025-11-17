@@ -7,28 +7,6 @@ import (
 	"github.com/goccy/go-yaml"
 )
 
-type Endpoint struct {
-	Url      string `yaml:"url"`
-	Interval string `yaml:"interval"`
-}
-
-type Target struct {
-	Endpoint Endpoint `yaml:"endpoint"`
-}
-
-type TargetGroup struct {
-	Label   string   `yaml:"label"`
-	Targets []Target `yaml:"targets"`
-}
-
-type Insomnia struct {
-	TargetGroups []TargetGroup `yaml:"target-group"`
-}
-
-type Config struct {
-	Insomnia Insomnia `yaml:"insomnia"`
-}
-
 // DEV Usage - For Logging Parsed Output
 // func YMLParserLogger(config Config) {
 // 	// looping through all target groups

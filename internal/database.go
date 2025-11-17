@@ -34,29 +34,34 @@ func sqlFromFile(file string) string {
 }
 
 func Migrate() {
-	// DB Migration Code
-	err := DB.Ping()
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println("If we ping we can also migrate")
 
 	// Table creations
 	log.Println("Starting Migrations ... ")
-
-	log.Println("Table Migrations ... ")
 
 	result, err := DB.Exec(sqlFromFile("create-table.sql"))
 	if err != nil {
 		panic(err)
 	}
 
-	log.Println("Tables Created : ", result)
+	log.Println("Migrations Complete ... ", result)
 }
 
 func Seed(config utils.Config) {
-	// Seed Initial Config to DB
+
+	// seeding targetgroup table
+	for _, targetgroup := range config.Insomnia.TargetGroups {
+		_, err := DB.Query(sqlFromFile("seed-targetgroup.sql"), targetgroup.Label)
+		if err != nil {
+			panic(err)
+		}
+	}
+	log.Println("Seeded targetgroups from config file")
+
+	// seeding target table
+	// for _, targetgroup := range config.Insomnia.TargetGroups {
+
+	// }
+
 }
 
 func Connect() {
