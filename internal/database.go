@@ -58,9 +58,18 @@ func Seed(config utils.Config) {
 	log.Println("Seeded targetgroups from config file")
 
 	// seeding target table
-	// for _, targetgroup := range config.Insomnia.TargetGroups {
-
-	// }
+	for _, targetgroup := range config.Insomnia.TargetGroups {
+		// load target group wise
+		label := targetgroup.Label
+		for _, target := range targetgroup.Targets {
+			_, err := DB.Query(sqlFromFile("seed-target.sql"), target.Endpoint.Url, target.Endpoint.Interval, label)
+			if err != nil {
+				panic(err)
+			}
+		}
+		log.Println("Loaded targets of the targetgroup : ", label)
+	}
+	log.Println("Seeded targets from config file")
 
 }
 
