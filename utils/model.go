@@ -2,7 +2,8 @@ package utils
 
 type Endpoint struct {
 	Url      string `yaml:"url"`
-	Interval string `yaml:"interval"`
+	Interval int    `yaml:"interval"`
+	Unit     string `yaml:"unit"`
 }
 
 type Target struct {

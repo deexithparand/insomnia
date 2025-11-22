@@ -21,9 +21,20 @@ const (
 
 var DB *sql.DB
 
-func sqlFromFile(file string) string {
+func intervalSQLQuery(interval int, unitShorthand string) string {
+
+	unitMap := map[string]string{
+		"s": "SECONDS",
+		"m": "MINUTES",
+		"h": "HOURS",
+	}
+
+	return fmt.Sprintf("%d %s", interval, unitMap[unitShorthand])
+}
+
+func sqlFromFile(baseFolder, file string) string {
 	base := "internal"
-	path := filepath.Join(base, file)
+	path := filepath.Join(base, baseFolder, file)
 	data, err := os.ReadFile(path)
 	if err != nil {
 		panic(err)
@@ -38,7 +49,7 @@ func Migrate() {
 	// Table creations
 	log.Println("Starting Migrations ... ")
 
-	result, err := DB.Exec(sqlFromFile("create-table.sql"))
+	result, err := DB.Exec(sqlFromFile("migrate", "migrate.sql"))
 	if err != nil {
 		panic(err)
 	}
@@ -50,7 +61,7 @@ func Seed(config utils.Config) {
 
 	// seeding targetgroup table
 	for _, targetgroup := range config.Insomnia.TargetGroups {
-		_, err := DB.Query(sqlFromFile("seed-targetgroup.sql"), targetgroup.Label)
+		_, err := DB.Query(sqlFromFile("seed", "targetgroup.sql"), targetgroup.Label)
 		if err != nil {
 			panic(err)
 		}
@@ -62,7 +73,7 @@ func Seed(config utils.Config) {
 		// load target group wise
 		label := targetgroup.Label
 		for _, target := range targetgroup.Targets {
-			_, err := DB.Query(sqlFromFile("seed-target.sql"), target.Endpoint.Url, target.Endpoint.Interval, label)
+			_, err := DB.Query(sqlFromFile("seed", "target.sql"), label, target.Endpoint.Url, intervalSQLQuery(target.Endpoint.Interval, target.Endpoint.Unit))
 			if err != nil {
 				panic(err)
 			}

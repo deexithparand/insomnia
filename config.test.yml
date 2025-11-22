@@ -5,23 +5,28 @@ insomnia:
         targets: 
           - endpoint:
               url: "https://fast.com"    
-              interval: 1m # only whole values ( decimals not allowed ) - in s, m, h, d ( default - 1m )
+              interval: 1 # only whole numbers for v1 
+              unit: "m" # - in s, m, h ( default - m ) - only fixed values allowed on the cli
           - endpoint:
               url: "https://whatismyipaddress.com"
-              interval: 1m
+              interval: 1
+              unit: "m"
 
       - label:  "utility"
         targets: 
           - endpoint:
               url: "https://www.youtube.com/"    
-              interval: 2m # only whole values ( decimals not allowed ) - in s, m, h, d ( default - 1m )
+              interval: 2
+              unit: "m"
           - endpoint:
               url: "https://www.google.com/"
-              interval: 2m   
+              interval: 2
+              unit: "m"
 
       - label:  "ai"
         targets: 
           - endpoint:
               url: "https://chatgpt.com/"    
-              interval: 3m # only whole values ( decimals not allowed ) - in s, m, h, d ( default - 1m )l    
+              interval: 3
+              unit: "m"  
   # global-setting: ( planning to add this later )
