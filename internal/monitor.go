@@ -17,20 +17,26 @@ again the ticker keeps going until the app stops or the endpoint deleted
 
 // A ticker function that keeps running and prints every second
 // NOTE : We also need to check if the time here equates the one in the DB
-func Ticker(value string, wg *sync.WaitGroup) {
+func Ticker(value string, wg *sync.WaitGroup, done chan bool, ticker *time.Ticker) {
 	defer wg.Done()
 
 	// func that runs every second until 10 secs - and prints the value
-
-	// a timer that runs for two seconds
-	timer := time.NewTimer(2 * time.Second)
-	fmt.Println("Waiting... for ", value)
-	<-timer.C
-	fmt.Println("Wait done ... for", value)
+	for {
+		select {
+		case <-done:
+			return
+		case t := <-ticker.C:
+			fmt.Println(value, " ticks at ", t.Second())
+		}
+	}
 }
 
 func Monitor() {
-	var wg sync.WaitGroup
+	var (
+		wg         sync.WaitGroup
+		tickerList [](*time.Ticker)
+		doneList   [](chan bool)
+	)
 
 	// GET all targets
 	targets := []string{"google", "facebook", "amazon", "apple"}
@@ -38,11 +44,25 @@ func Monitor() {
 	// Create timer for each value
 	for _, v := range targets {
 		wg.Add(1)
-		go Ticker(v, &wg)
+
+		done := make(chan bool)
+		ticker := time.NewTicker(1 * time.Second)
+
+		tickerList = append(tickerList, ticker)
+		doneList = append(doneList, done)
+
+		go Ticker(v, &wg, done, ticker)
 	}
 
-	// wg.Add(1)
-	// go Ticker("task", &wg)
+	time.Sleep(10 * time.Second)
+
+	for _, ticker := range tickerList {
+		ticker.Stop()
+	}
+
+	for _, done := range doneList {
+		done <- true
+	}
 
 	wg.Wait()
 }
