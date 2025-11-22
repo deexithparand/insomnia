@@ -21,6 +21,7 @@ const (
 
 var DB *sql.DB
 
+// *** dependency functions ***
 func intervalSQLQuery(interval int, unitShorthand string) string {
 
 	unitMap := map[string]string{
@@ -44,6 +45,7 @@ func sqlFromFile(baseFolder, file string) string {
 	return string(data)
 }
 
+// *** core functions ***
 func Migrate() {
 
 	// Table creations
