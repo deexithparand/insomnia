@@ -2,6 +2,7 @@ package insomnia
 
 import (
 	"insomnia/internal"
+	"insomnia/internal/core"
 	"insomnia/utils"
 )
 
@@ -19,14 +20,7 @@ func DB(config utils.Config) {
 	internal.Seed(config)
 }
 
-func Monitor() {
-	// currently kept empty until migration
-
-	// Table Creation
-
-}
-
 func Start() {
 	// Start Monitoring, Wait & Trigger
-
+	core.Monitor()
 }
