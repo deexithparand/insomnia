@@ -20,7 +20,7 @@ func DB(config utils.Config) {
 	internal.Seed(config)
 }
 
-func Start() {
+func AppStart() {
 	// Start Monitoring, Wait & Trigger
 	core.Monitor()
 }

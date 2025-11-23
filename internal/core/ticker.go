@@ -20,7 +20,7 @@ func Ticker(value string, wg *sync.WaitGroup, done chan bool, ticker *time.Ticke
 	}
 }
 
-func TickerMain(targets []string) {
+func TickerScheduler(targets []string) {
 	var (
 		wg         sync.WaitGroup
 		tickerList [](*time.Ticker)

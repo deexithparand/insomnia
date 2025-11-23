@@ -19,7 +19,7 @@ func main() {
 	insomnia.DB(config)
 	defer internal.Close()
 
-	insomnia.Start()
+	insomnia.AppStart()
 
 	// keeps the application running - until we terminate
 	done := make(chan os.Signal, 1)

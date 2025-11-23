@@ -83,7 +83,6 @@ func Seed(config utils.Config) {
 		log.Println("Loaded targets of the targetgroup : ", label)
 	}
 	log.Println("Seeded targets from config file")
-
 }
 
 func Connect() {
