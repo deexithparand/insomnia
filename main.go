@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"insomnia/insomnia"
-	"insomnia/internal"
+	"insomnia/internal/db"
 	"os"
 	"os/signal"
 	"syscall"
@@ -17,7 +17,7 @@ func main() {
 
 	// DB Scripts
 	insomnia.DB(config)
-	defer internal.Close()
+	defer db.Close()
 
 	insomnia.AppStart()
 

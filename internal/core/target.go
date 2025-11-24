@@ -1,7 +1,7 @@
 package core
 
 import (
-	"insomnia/internal"
+	"insomnia/internal/db"
 	"log"
 )
 
@@ -21,8 +21,8 @@ func UpdateUnmonitoredEndpoints() {
 		LAST_RUN IS NULL AND
 		NEXT_RUN IS NULL
 	`
-	DB := internal.DB
-	_, err := DB.Query(query)
+	db := db.DB
+	_, err := db.Query(query)
 	if err != nil {
 		panic(err)
 	}
@@ -32,8 +32,14 @@ func UpdateUnmonitoredEndpoints() {
 
 func GetMonitoredEndpoints() []EndpointRequest {
 	/**
-	1) Get all the endpoints from the target table
+	1) Get all the endpoints from the target table - Now that everything is updated
 	*/
+	// query := `
+	// SELECT * FROM TARGET
+	// `
+
+	// db := internal.DB
+	// _, err := db.Query(query)
 
 	return []EndpointRequest{}
 }

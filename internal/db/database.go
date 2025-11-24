@@ -1,4 +1,4 @@
-package internal
+package db
 
 import (
 	"database/sql"
@@ -34,7 +34,7 @@ func intervalSQLQuery(interval int, unitShorthand string) string {
 }
 
 func sqlFromFile(baseFolder, file string) string {
-	base := "internal"
+	base := "internal/db/sql"
 	path := filepath.Join(base, baseFolder, file)
 	data, err := os.ReadFile(path)
 	if err != nil {

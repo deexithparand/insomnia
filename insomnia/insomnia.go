@@ -1,8 +1,8 @@
 package insomnia
 
 import (
-	"insomnia/internal"
 	"insomnia/internal/core"
+	"insomnia/internal/db"
 	"insomnia/utils"
 )
 
@@ -15,9 +15,10 @@ func Config(configFilePath string) utils.Config {
 // Setup DB
 func DB(config utils.Config) {
 	// Load Data To DB
-	internal.Connect()
-	internal.Migrate()
-	internal.Seed(config)
+
+	db.Connect()
+	db.Migrate()
+	db.Seed(config)
 }
 
 func AppStart() {
