@@ -34,12 +34,7 @@ func GetMonitoredEndpoints() []EndpointRequest {
 	/**
 	1) Get all the endpoints from the target table - Now that everything is updated
 	*/
-	// query := `
-	// SELECT * FROM TARGET
-	// `
-
-	// db := internal.DB
-	// _, err := db.Query(query)
+	db.GetTargetDB()
 
 	return []EndpointRequest{}
 }

@@ -21,6 +21,8 @@ func Monitor() {
 	// Update Unmonitored Endpoints - Needs to run the first time the app starts
 	UpdateUnmonitoredEndpoints()
 
+	GetMonitoredEndpoints()
+
 	// I/P for the ticker
 	// var endpointRequestList []EndpointRequest = GetMonitoredEndpoints()
 
