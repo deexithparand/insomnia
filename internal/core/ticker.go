@@ -2,54 +2,61 @@ package core
 
 import (
 	"fmt"
+	"insomnia/internal/db"
 	"sync"
 	"time"
 )
 
-func Ticker(value string, wg *sync.WaitGroup, done chan bool, ticker *time.Ticker) {
+func Ticker(target db.Target, wg *sync.WaitGroup, stop chan bool, ticker *time.Ticker) {
 	defer wg.Done()
 
 	// func that runs every second until 10 secs - and prints the value
 	for {
 		select {
-		case <-done:
+		case <-stop:
 			return
 		case t := <-ticker.C:
-			fmt.Println(value, " ticks at ", t.Second())
+			fmt.Println(target.Endpoint, " monitored at ", t.Second(), " as per the interval ", target.Interval)
 		}
 	}
 }
 
-func TickerScheduler(targets []string) {
+func stopAllTickers(tickers [](*time.Ticker), stopChans [](chan bool)) {
+	for _, ticker := range tickers {
+		ticker.Stop()
+	}
+
+	for _, stop := range stopChans {
+		stop <- true
+	}
+
+	fmt.Println("Closed all the tickers - Nothing to worry")
+}
+
+func TickerScheduler(targets []db.Target) {
 	var (
-		wg         sync.WaitGroup
-		tickerList [](*time.Ticker)
-		doneList   [](chan bool)
+		wg        sync.WaitGroup
+		tickers   [](*time.Ticker)
+		stopChans [](chan bool)
 	)
 
 	// Create Timer for each value
-	for _, v := range targets {
+	for _, target := range targets {
 		wg.Add(1)
 
-		done := make(chan bool)
+		stop := make(chan bool)
 		ticker := time.NewTicker(1 * time.Second)
 
-		tickerList = append(tickerList, ticker)
-		doneList = append(doneList, done)
+		tickers = append(tickers, ticker)
+		stopChans = append(stopChans, stop)
 
-		go Ticker(v, &wg, done, ticker)
+		go Ticker(target, &wg, stop, ticker)
 	}
 
 	// Temporarily keeps it running for 10 seconds
 	time.Sleep(10 * time.Second)
 
-	for _, ticker := range tickerList {
-		ticker.Stop()
-	}
-
-	for _, done := range doneList {
-		done <- true
-	}
+	defer stopAllTickers(tickers, stopChans)
 
 	wg.Wait()
 }

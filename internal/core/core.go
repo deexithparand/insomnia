@@ -21,13 +21,13 @@ func Monitor() {
 	// Update Unmonitored Endpoints - Needs to run the first time the app starts
 	UpdateUnmonitoredEndpoints()
 
-	GetMonitoredEndpoints()
+	targets := GetMonitoredEndpoints()
 
 	// I/P for the ticker
 	// var endpointRequestList []EndpointRequest = GetMonitoredEndpoints()
 
 	// App Ticker Scheduled Here - Demo TargetRequestList
-	endpointRequestList := []string{"google", "facebook", "amazon", "apple"}
-	TickerScheduler(endpointRequestList)
+	// endpointRequestList := []string{"google", "facebook", "amazon", "apple"}
+	TickerScheduler(targets)
 
 }

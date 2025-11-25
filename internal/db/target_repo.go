@@ -7,7 +7,7 @@ import (
 	"github.com/google/uuid"
 )
 
-type TargetRepo struct {
+type Target struct {
 	ID       uuid.UUID     `json:"id" db:"id"`
 	GroupID  uuid.UUID     `json:"groupid" db:"groupid"`
 	Endpoint string        `json:"endpoint" db:"endpoint"`
@@ -16,10 +16,10 @@ type TargetRepo struct {
 	NextRun  *time.Time    `json:"next_run" db:"next_run"`
 }
 
-func GetTargetDB() []TargetRepo {
+func GetTargetDB() []Target {
 
 	var (
-		targetRepoList    []TargetRepo
+		targets           []Target
 		intervalInSeconds float64
 	)
 
@@ -41,7 +41,7 @@ func GetTargetDB() []TargetRepo {
 	defer rows.Close()
 
 	for rows.Next() {
-		var target TargetRepo
+		var target Target
 		fmt.Println(target.ID)
 		err := rows.Scan(&target.ID, &target.GroupID, &target.Endpoint, &intervalInSeconds, &target.LastRun, &target.NextRun)
 		if err != nil {
@@ -50,13 +50,13 @@ func GetTargetDB() []TargetRepo {
 
 		target.Interval = time.Duration(intervalInSeconds) * time.Second
 
-		targetRepoList = append(targetRepoList, target)
+		targets = append(targets, target)
 
 		fmt.Println(target.ID, target.GroupID, target.Endpoint, target.Interval, target.LastRun, target.NextRun)
 	}
 
 	fmt.Println("Queried data successfully from the target group")
 
-	// return targetRepoList
-	return []TargetRepo{}
+	// return targets
+	return []Target{}
 }

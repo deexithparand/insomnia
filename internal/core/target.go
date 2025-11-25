@@ -30,11 +30,10 @@ func UpdateUnmonitoredEndpoints() {
 	log.Println("updated unmonitored endpoints ...")
 }
 
-func GetMonitoredEndpoints() []EndpointRequest {
+func GetMonitoredEndpoints() []db.Target {
 	/**
 	1) Get all the endpoints from the target table - Now that everything is updated
 	*/
-	db.GetTargetDB()
 
-	return []EndpointRequest{}
+	return db.GetTargetDB()
 }
