@@ -23,11 +23,5 @@ func Monitor() {
 
 	targets := GetMonitoredEndpoints()
 
-	// I/P for the ticker
-	// var endpointRequestList []EndpointRequest = GetMonitoredEndpoints()
-
-	// App Ticker Scheduled Here - Demo TargetRequestList
-	// endpointRequestList := []string{"google", "facebook", "amazon", "apple"}
 	TickerScheduler(targets)
-
 }
