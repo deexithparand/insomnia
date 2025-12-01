@@ -1,5 +1,7 @@
 package core
 
+import "insomnia/internal/scheduler"
+
 // A ticker function that keeps running and prints every second
 func Monitor() {
 
@@ -8,5 +10,5 @@ func Monitor() {
 
 	targets := GetMonitoredEndpoints()
 
-	TickerScheduler(targets)
+	scheduler.TickerScheduler(targets)
 }

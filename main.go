@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"insomnia/internal/core"
 	"insomnia/internal/db"
-	"insomnia/pkg/utils"
+	"insomnia/internal/utils"
 	"os"
 	"os/signal"
 	"syscall"

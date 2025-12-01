@@ -5,10 +5,6 @@ import (
 	"log"
 )
 
-type EndpointRequest struct {
-	// EndpointId
-}
-
 // Updates all the endpoints with last_run and next_run as NULL
 func UpdateUnmonitoredEndpoints() {
 	// Get all the endpoints with the last_run and next_run as NULL and update them

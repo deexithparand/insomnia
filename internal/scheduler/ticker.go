@@ -1,4 +1,4 @@
-package core
+package scheduler
 
 import (
 	"fmt"

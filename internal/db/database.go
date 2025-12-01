@@ -3,7 +3,7 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"insomnia/pkg/utils"
+	"insomnia/internal/utils"
 	"log"
 	"os"
 	"path/filepath"
