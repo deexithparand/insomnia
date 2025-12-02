@@ -1,6 +1,7 @@
 package httpclient
 
 import (
+	"io"
 	"net/http"
 )
 
@@ -12,7 +13,7 @@ type Response struct {
 	Status     string `json:"status"`
 	StatusCode int    `json:"status_code"`
 	// ResponseTime int    `json:"response_time"`
-	// Body string `json:"body"`
+	Body string `json:"body"`
 }
 
 func GETTargetUptime(req Request) Response {
@@ -28,17 +29,12 @@ func GETTargetUptime(req Request) Response {
 	uptimeResp.Status = httpResp.Status
 	uptimeResp.StatusCode = httpResp.StatusCode
 
-	// var respBody string = ""
-	// bufferedReader := bufio.NewReader(httpResp.Body)
-	// for {
-	// 	line, err := bufferedReader.ReadString('\n')
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	respBody += line
-	// }
+	body, err := io.ReadAll(httpResp.Body)
+	if err != nil {
+		panic(err)
+	}
 
-	// uptimeResp.Body = respBody
+	uptimeResp.Body = string(body)
 
 	return uptimeResp
 }
