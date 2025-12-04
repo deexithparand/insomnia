@@ -8,7 +8,8 @@ import (
 func TestPlaygroundInterface(t *testing.T) {
 	fmt.Println()
 
-	PlaygroundInterface()
+	// PlaygroundIoReader()
+	PlaygroundBufioReader()
 
 	fmt.Println()
 }
