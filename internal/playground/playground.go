@@ -49,6 +49,7 @@ func PlaygroundBufioReader() {
 	}
 
 	bufioReader := bufio.NewReader(resp.Body)
+	defer resp.Body.Close()
 	for {
 		httpLineOp, err := bufioReader.ReadString('\n')
 
