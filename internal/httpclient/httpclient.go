@@ -1,8 +1,11 @@
 package httpclient
 
 import (
+	"bufio"
+	"fmt"
 	"io"
 	"net/http"
+	"time"
 )
 
 type Request struct {
@@ -10,31 +13,49 @@ type Request struct {
 }
 
 type Response struct {
-	Status     string `json:"status"`
-	StatusCode int    `json:"status_code"`
-	// ResponseTime int    `json:"response_time"`
-	Body string `json:"body"`
+	Status       string        `json:"status"`
+	StatusCode   int           `json:"status_code"`
+	ResponseTime time.Duration `json:"response_time"`
+	Body         string        `json:"body"`
 }
 
-func GETTargetUptime(req Request) Response {
+func CheckUptime(req Request) Response {
 
-	var uptimeResp Response
+	var (
+		uptimeResp             Response
+		httpBufferedLineOutput string
+		timeBeforeRequest      time.Time = time.Now()
+	)
 
 	httpResp, err := http.Get(req.URL)
 	if err != nil {
 		panic(err)
 	}
 
+	// reader to read data from the bufio reader
+	bufioReader := bufio.NewReader(httpResp.Body)
+	defer httpResp.Body.Close()
+	for {
+		httpLineOutput, err := bufioReader.ReadString('\n')
+
+		if len(httpLineOutput) > 0 {
+			httpBufferedLineOutput += httpLineOutput
+		}
+
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			fmt.Println("error reading from the http response body : ", err)
+		}
+	}
+
 	// update values
 	uptimeResp.Status = httpResp.Status
 	uptimeResp.StatusCode = httpResp.StatusCode
-
-	body, err := io.ReadAll(httpResp.Body)
-	if err != nil {
-		panic(err)
-	}
-
-	uptimeResp.Body = string(body)
+	uptimeResp.Body = httpBufferedLineOutput
+	uptimeResp.ResponseTime = time.Since(timeBeforeRequest)
 
 	return uptimeResp
 }
